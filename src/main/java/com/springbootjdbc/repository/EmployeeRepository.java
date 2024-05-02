@@ -41,7 +41,7 @@ public class EmployeeRepository {
 		try {
 			employeeDto = jdbcTemplate.queryForObject(FIND_QUERY, new BeanPropertyRowMapper<>(EmployeeDto.class), id);
 		}catch(EmptyResultDataAccessException e) {
-			throw new EmployeeNotFoundException("id="+id);
+			throw new EmployeeNotFoundException("Employee id="+id + " not foud in database");
 		}
 		return employeeDto;
 	}
