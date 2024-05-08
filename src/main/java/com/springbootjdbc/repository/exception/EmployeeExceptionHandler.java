@@ -2,6 +2,7 @@ package com.springbootjdbc.repository.exception;
 
 import java.time.LocalDateTime;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +21,7 @@ public class EmployeeExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(EmployeeNotFoundException.class)
 	public final ResponseEntity<EmployeeErrorInfo> handleEmployeeNotFoundException(Exception ex, WebRequest request) throws Exception {	
-		System.out.println("----------------Custom Exception Handler---------------");
+		System.out.println("----------------Custom Employee Exception Handler---------------");
 		
 		EmployeeErrorInfo employeeErrorInfo = new EmployeeErrorInfo(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<EmployeeErrorInfo>(employeeErrorInfo, HttpStatus.NOT_FOUND);

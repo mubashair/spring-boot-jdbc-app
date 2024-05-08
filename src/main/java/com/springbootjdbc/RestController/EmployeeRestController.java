@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springbootjdbc.model.EmployeeDto;
 import com.springbootjdbc.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeRestController {
@@ -25,7 +27,7 @@ public class EmployeeRestController {
 		return employeeService.getAllEmployee();
 	}
 	@PostMapping("/createEmployee")
-	public int createEmployee(@RequestBody EmployeeDto employee) {
+	public int createEmployee(@Valid @RequestBody EmployeeDto employee) {
 		return employeeService.createEmployee(employee);
 	}
 	@GetMapping("findEmployee/{id}")
