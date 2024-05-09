@@ -1,0 +1,95 @@
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex 3065b71..354d82c 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -26,9 +26,13 @@[m
+ 			<groupId>org.springframework.boot</groupId>[m
+ 			<artifactId>spring-boot-starter-web</artifactId>[m
+ 		</dependency>[m
+[32m+[m		[32m<dependency>[m
+[32m+[m			[32m<groupId>org.springframework.boot</groupId>[m
+[32m+[m			[32m<artifactId>spring-boot-starter-validation</artifactId>[m
+[32m+[m		[32m</dependency>[m
+ [m
+[31m-		<!--<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId> [m
+[31m-			<scope>runtime</scope> <optional>true</optional> </dependency> -->[m
+[32m+[m		[32m<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-devtools</artifactId>[m[41m [m
+[32m+[m			[32m<scope>runtime</scope> <optional>true</optional> </dependency>[m
+ 		<dependency>[m
+ 			<groupId>com.h2database</groupId>[m
+ 			<artifactId>h2</artifactId>[m
+[1mdiff --git a/src/main/java/com/springbootjdbc/RestController/EmployeeRestController.java b/src/main/java/com/springbootjdbc/RestController/EmployeeRestController.java[m
+[1mindex 35903ed..89578be 100644[m
+[1m--- a/src/main/java/com/springbootjdbc/RestController/EmployeeRestController.java[m
+[1m+++ b/src/main/java/com/springbootjdbc/RestController/EmployeeRestController.java[m
+[36m@@ -15,6 +15,8 @@[m [mimport org.springframework.web.bind.annotation.RestController;[m
+ import com.springbootjdbc.model.EmployeeDto;[m
+ import com.springbootjdbc.service.EmployeeService;[m
+ [m
+[32m+[m[32mimport jakarta.validation.Valid;[m
+[32m+[m
+ @RestController[m
+ @RequestMapping("/employee")[m
+ public class EmployeeRestController {[m
+[36m@@ -25,7 +27,7 @@[m [mpublic class EmployeeRestController {[m
+ 		return employeeService.getAllEmployee();[m
+ 	}[m
+ 	@PostMapping("/createEmployee")[m
+[31m-	public int createEmployee(@RequestBody EmployeeDto employee) {[m
+[32m+[m	[32mpublic int createEmployee(@Valid @RequestBody EmployeeDto employee) {[m
+ 		return employeeService.createEmployee(employee);[m
+ 	}[m
+ 	@GetMapping("findEmployee/{id}")[m
+[1mdiff --git a/src/main/java/com/springbootjdbc/model/EmployeeDto.java b/src/main/java/com/springbootjdbc/model/EmployeeDto.java[m
+[1mindex 2cc88e9..b773ada 100644[m
+[1m--- a/src/main/java/com/springbootjdbc/model/EmployeeDto.java[m
+[1m+++ b/src/main/java/com/springbootjdbc/model/EmployeeDto.java[m
+[36m@@ -1,11 +1,20 @@[m
+ package com.springbootjdbc.model;[m
+ [m
+[32m+[m[32mimport jakarta.validation.constraints.NotEmpty;[m
+[32m+[m[32mimport jakarta.validation.constraints.NotNull;[m
+[32m+[m
+ public class EmployeeDto {[m
+[32m+[m	[32m@NotNull[m
+ 	private Long id;[m
+[32m+[m	[32m@NotEmpty(message="First name cannot be empty")[m
+ 	private String firstName;[m
+[32m+[m	[32m@NotEmpty[m
+ 	private String lastName;[m
+[32m+[m	[32m@NotNull[m
+ 	private Long mobileNumber;[m
+[32m+[m	[32m@NotNull[m
+ 	private int age;[m
+[32m+[m	[32m@NotEmpty[m
+ 	private String city;[m
+ 	[m
+ 	public Long getId() {[m
+[36m@@ -45,3 +54,6 @@[m [mpublic class EmployeeDto {[m
+ 		this.city = city;[m
+ 	}[m
+ }[m
+[32m+[m[32m//my name is khan[m
+[32m+[m[32m//my name is mubashar[m
+[32m+[m[32m//my name is fazeelat[m
+[1mdiff --git a/src/main/java/com/springbootjdbc/repository/exception/EmployeeExceptionHandler.java b/src/main/java/com/springbootjdbc/repository/exception/EmployeeExceptionHandler.java[m
+[1mindex 028246f..e6e47b4 100644[m
+[1m--- a/src/main/java/com/springbootjdbc/repository/exception/EmployeeExceptionHandler.java[m
+[1m+++ b/src/main/java/com/springbootjdbc/repository/exception/EmployeeExceptionHandler.java[m
+[36m@@ -2,6 +2,7 @@[m [mpackage com.springbootjdbc.repository.exception;[m
+ [m
+ import java.time.LocalDateTime;[m
+ [m
+[32m+[m
+ import org.springframework.http.HttpStatus;[m
+ import org.springframework.http.ResponseEntity;[m
+ import org.springframework.web.bind.annotation.ControllerAdvice;[m
+[36m@@ -20,7 +21,7 @@[m [mpublic class EmployeeExceptionHandler extends ResponseEntityExceptionHandler {[m
+ 	[m
+ 	@ExceptionHandler(EmployeeNotFoundException.class)[m
+ 	public final ResponseEntity<EmployeeErrorInfo> handleEmployeeNotFoundException(Exception ex, WebRequest request) throws Exception {	[m
+[31m-		System.out.println("----------------Custom Exception Handler---------------");[m
+[32m+[m		[32mSystem.out.println("----------------Custom Employee Exception Handler---------------");[m
+ 		[m
+ 		EmployeeErrorInfo employeeErrorInfo = new EmployeeErrorInfo(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));[m
+ 		return new ResponseEntity<EmployeeErrorInfo>(employeeErrorInfo, HttpStatus.NOT_FOUND);[m
