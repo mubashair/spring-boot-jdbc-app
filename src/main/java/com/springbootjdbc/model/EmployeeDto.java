@@ -1,11 +1,20 @@
 package com.springbootjdbc.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class EmployeeDto {
+	@NotNull
 	private Long id;
+	@NotEmpty(message="First name cannot be empty")
 	private String firstName;
+	@NotEmpty
 	private String lastName;
+	@NotNull
 	private Long mobileNumber;
+	@NotNull
 	private int age;
+	@NotEmpty
 	private String city;
 	
 	public Long getId() {
