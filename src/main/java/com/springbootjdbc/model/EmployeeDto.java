@@ -54,9 +54,4 @@ public class EmployeeDto {
 		this.city = city;
 	}
 }
-//my name is khan
-//my name is mubashar
-//my name is fazeelat
-//meerab added
-//noreen added
-//Batool added
+
