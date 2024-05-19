@@ -2,9 +2,11 @@ package com.springbootjdbc.repository.exception;
 
 import java.time.LocalDateTime;
 
-
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -25,6 +27,13 @@ public class EmployeeExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		EmployeeErrorInfo employeeErrorInfo = new EmployeeErrorInfo(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<EmployeeErrorInfo>(employeeErrorInfo, HttpStatus.NOT_FOUND);
+	}
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+		EmployeeErrorInfo employeeErrorInfo = new EmployeeErrorInfo(LocalDateTime.now(), ex.getFieldError().getDefaultMessage(), request.getDescription(false));
+		return new ResponseEntity<>(employeeErrorInfo, HttpStatus.BAD_REQUEST);
 	}
 
 }

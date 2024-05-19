@@ -8,13 +8,13 @@ public class EmployeeDto {
 	private Long id;
 	@NotEmpty(message="First name cannot be empty")
 	private String firstName;
-	@NotEmpty
+	@NotEmpty(message="Last name cannot be empty")
 	private String lastName;
-	@NotNull
+	@NotNull(message="Mobile number cannot be empty")
 	private Long mobileNumber;
-	@NotNull
-	private int age;
-	@NotEmpty
+	@NotNull(message="Age cannot be empty")
+	private Integer age;
+	@NotEmpty(message="City name cannot be empty")
 	private String city;
 	
 	public Long getId() {
